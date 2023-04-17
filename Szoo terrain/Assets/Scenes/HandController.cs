@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 
 public class HandController : MonoBehaviour
 {
-    public static float HandGoGetMilkSpeed = 250f;
-    public static float HandGotMilkSpeed = 1000f; 
+    public static float HandGoGetMilkSpeed = 500f;
+    public static float HandGotMilkSpeed = 2000f; 
 
     private bool isMoving = false;
     private float originalZScale;
