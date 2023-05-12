@@ -6,7 +6,6 @@ public class HandController : MonoBehaviour
     public static float HandGoGetMilkSpeed = 500f;
     public static float HandGotMilkSpeed = 2000f; 
 
-    private bool isMoving = false;
     private float originalZScale;
 
         
