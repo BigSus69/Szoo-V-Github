@@ -1,26 +1,34 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class HandController : MonoBehaviour
 {
     public static float HandGoGetMilkSpeed = 500f;
-    public static float HandGotMilkSpeed = 2000f; 
+    public static float HandGotMilkSpeed = 2000f;
 
-    private float originalZScale;
-
-        
     public GameObject Wrist;
 
+    public bool isSexing = false;
 
-    void Start()
+    void Update()
     {
-        Debug.Log(HandGoGetMilkSpeed);
-    }
-
-    public void Update(){
-
         this.transform.position = Wrist.transform.position;
     }
 
-    
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "cat")
+        {
+            isSexing = true;
+            Debug.Log("Sexing");
+        }
+    }
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "cat")
+        {
+            isSexing = false;
+            Debug.Log("NoSexing");
+        }
+    }
+
 }
