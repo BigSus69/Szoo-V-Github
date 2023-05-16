@@ -10,6 +10,10 @@ public class ArmControllerV2 : MonoBehaviour
 
     private bool isArmStopped = false; // Flag to track if the arm is stopped
 
+    Animator m_Animator;
+
+    public bool m_isSexing;
+
     void Start()
     {
         originalZScale = transform.localScale.z;
@@ -17,6 +21,9 @@ public class ArmControllerV2 : MonoBehaviour
 
         // Get the reference to the HandController script
         handController = FindObjectOfType<HandController>();
+
+        m_Animator = GetComponent<Animator>();
+        m_isSexing = false;
     }
 
     void Update()
@@ -27,6 +34,12 @@ public class ArmControllerV2 : MonoBehaviour
             Vector3 newScale = transform.localScale;
             newScale.z += HandController.HandGoGetMilkSpeed * Time.deltaTime;
             transform.localScale = newScale;
+            m_Animator.SetBool("isSexing", false);
+        }
+        else if (handController.isSexing == true)
+        {
+            transform.localScale = transform.localScale;
+            m_Animator.SetBool("isSexing", true);
         }
         else
         {
@@ -35,8 +48,9 @@ public class ArmControllerV2 : MonoBehaviour
             newScale.z -= HandController.HandGotMilkSpeed * Time.deltaTime;
             newScale.z = Mathf.Max(newScale.z, originalZScale);
             transform.localScale = newScale;
+            m_Animator.SetBool("isSexing", false);
         }
-
+        
         if (Input.GetMouseButtonDown(0))
         {
             isScaling = true;
@@ -49,7 +63,7 @@ public class ArmControllerV2 : MonoBehaviour
         }
 
         // Access the value of the isSexing bool from the HandController script
-        if (handController.isSexing)
+        if (handController.isSexing == true)
         {
             if (!isArmStopped)
             {
@@ -66,7 +80,7 @@ public class ArmControllerV2 : MonoBehaviour
     {
         isArmStopped = true;
 
-        yield return new WaitForSeconds(2f); // Delay for 2 seconds
+        yield return new WaitForSeconds(1f); // Delay for 1 seconds
 
         // Perform the "Arm stop" action
         Debug.Log("Arm stop");
