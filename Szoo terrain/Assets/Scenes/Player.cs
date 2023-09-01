@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float minVerticalAngle = -80f;
 
     private float verticalRotation = 0f;
-
+ 
     void Start()
     {
         // Lock cursor to center of screen
