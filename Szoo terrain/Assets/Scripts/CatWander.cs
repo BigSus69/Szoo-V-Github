@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CatWander : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class CatWander : MonoBehaviour
     public float minIdleTime = 1f;          // Minimum time the cat stays idle
     public float maxIdleTime = 5f;          // Maximum time the cat stays idle
     public bool m_isMoving;
+    public float Pealth = 100f;
+    public float MaxPealth = 100f;
 
     private bool isWandering = false;
     private bool isIdle = false;             // Flag to indicate if the cat is currently idle
@@ -16,6 +19,8 @@ public class CatWander : MonoBehaviour
     private float idleTimer = 0f;            // Timer for idle time
     private float idleDuration = 0f;         // Duration of the current idle period
     Animator m_Animator;
+    public Slider petBar;
+    /*public ArmControllerV2 armController;*/
 
     private void Start()
     {
@@ -23,9 +28,39 @@ public class CatWander : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_isMoving = false;
     }
+    private void Awake()
+    {
+        Pealth = MaxPealth;
+    }
 
     private void Update()
     {
+        /*bool m_isSexing = armController.m_isSexing;*/
+        // slowly reduce slider
+        if (petBar.value > 0 /*&& m_isSexing == false*/)
+        {
+            petBar.value -= 0.0005f;
+            //If the value is 0 then the slider is destroyed
+            if (petBar.value == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        /*if m_sexing is true then slider increases until it has reached MaxPealth
+        if (m_isSexing == true)
+        {
+            if (petBar.value < MaxPealth)
+            {
+                petBar.value += 0.0005f;
+        
+                // Make sure the value doesn't exceed MaxPealth
+                if (petBar.value > MaxPealth)
+                {
+                    petBar.value = MaxPealth;
+                }
+            }
+        }*/
+
         if (isWandering)
         {
             if (isIdle)
@@ -61,6 +96,18 @@ public class CatWander : MonoBehaviour
         // Update animator parameter
         m_Animator.SetBool("isMoving", !isIdle);
     }
+
+    /*public void LooseHealth(float amount)
+    {
+        // Update Health bar
+        Pealth -= amount;
+        petBar.value = Pealth / MaxPealth;
+
+        if (Pealth <= 0)
+        {
+            
+        }
+    }*/
 
     private void StartWander()
     {
