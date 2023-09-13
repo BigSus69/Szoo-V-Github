@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class CatWander : MonoBehaviour
 {
@@ -20,13 +21,18 @@ public class CatWander : MonoBehaviour
     private float idleDuration = 0f;         // Duration of the current idle period
     Animator m_Animator;
     public Slider petBar;
-    /*public ArmControllerV2 armController;*/
+    
+    public bool m_isSexing;
+    //public bool gorw = false;
+    public ArmControllerV2 armController;
+    public HandController handController;
 
     private void Start()
     {
         StartWander();
         m_Animator = GetComponent<Animator>();
         m_isMoving = false;
+        m_isSexing = armController.m_isSexing;
     }
     private void Awake()
     {
@@ -35,9 +41,8 @@ public class CatWander : MonoBehaviour
 
     private void Update()
     {
-        /*bool m_isSexing = armController.m_isSexing;*/
         // slowly reduce slider
-        if (petBar.value > 0 /*&& m_isSexing == false*/)
+        if (petBar.value > 0 && !m_isSexing)
         {
             petBar.value -= 0.0005f;
             //If the value is 0 then the slider is destroyed
@@ -46,12 +51,12 @@ public class CatWander : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        /*if m_sexing is true then slider increases until it has reached MaxPealth
-        if (m_isSexing == true)
+        //if m_sexing is true then slider increases until it has reached MaxPealth
+        if (m_isSexing)
         {
             if (petBar.value < MaxPealth)
             {
-                petBar.value += 0.0005f;
+                petBar.value += 0.05f;
         
                 // Make sure the value doesn't exceed MaxPealth
                 if (petBar.value > MaxPealth)
@@ -59,7 +64,7 @@ public class CatWander : MonoBehaviour
                     petBar.value = MaxPealth;
                 }
             }
-        }*/
+        }
 
         if (isWandering)
         {
