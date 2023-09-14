@@ -4,13 +4,10 @@ using System.Collections;
 public class ArmControllerV2 : MonoBehaviour
 {
     private bool isScaling = false;  // A flag to check if the object is currently being scaled
-    private float originalZScale;   // The original z scale of the object
+    private float originalZScale;   // The original z scale of the object'
 
-    public HandController handController; // Reference to the HandController script
 
-    private bool isArmStopped = false; // Flag to track if the arm is stopped
-
-    Animator m_Animator;
+    public Animator m_Animator;
 
     public bool m_isSexing;
 
@@ -19,8 +16,6 @@ public class ArmControllerV2 : MonoBehaviour
         originalZScale = transform.localScale.z;
         Debug.Log(HandController.HandGoGetMilkSpeed);
 
-        // Get the reference to the HandController script
-        handController = FindObjectOfType<HandController>();
 
         m_Animator = GetComponent<Animator>();
         m_isSexing = false;
@@ -28,6 +23,20 @@ public class ArmControllerV2 : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isScaling = true;
+            Debug.Log("Pressed Mouse");
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isScaling = false;
+            m_Animator.SetBool("isSexing", false);
+            m_Animator.SetBool("isSlapping", false);
+            Debug.Log("Mouse not pressed");
+        }
+
         // Check if the object is being scaled and scale it accordingly
         if (isScaling)
         {
@@ -35,11 +44,17 @@ public class ArmControllerV2 : MonoBehaviour
             newScale.z += HandController.HandGoGetMilkSpeed * Time.deltaTime;
             transform.localScale = newScale;
             m_Animator.SetBool("isSexing", false);
+            m_Animator.SetBool("isSlapping", false);
         }
-        else if (handController.isSexing == true)
+        else if (Player.Instance.Hand.isSexing == true)
         {
             transform.localScale = transform.localScale;
+            m_Animator.SetBool("isSlapping", false);
             m_Animator.SetBool("isSexing", true);
+        }
+        else if (Player.Instance.Hand.isSlapping)
+        {
+            transform.localScale = transform.localScale;
         }
         else
         {
@@ -49,42 +64,9 @@ public class ArmControllerV2 : MonoBehaviour
             newScale.z = Mathf.Max(newScale.z, originalZScale);
             transform.localScale = newScale;
             m_Animator.SetBool("isSexing", false);
-        }
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            isScaling = true;
-            Debug.Log("Pressed Mouse");
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            isScaling = false;
-            Debug.Log("Mouse not pressed");
+            m_Animator.SetBool("isSlapping", false);
         }
 
-        // Access the value of the isSexing bool from the HandController script
-        if (handController.isSexing == true)
-        {
-            if (!isArmStopped)
-            {
-                StartCoroutine(DelayedArmStop());
-            }
-        }
-        else
-        {
-            // Do something when isSexing is false
-        }
-    }
 
-    IEnumerator DelayedArmStop()
-    {
-        isArmStopped = true;
-
-        yield return new WaitForSeconds(1f); // Delay for 1 seconds
-
-        // Perform the "Arm stop" action
-        Debug.Log("Arm stop");
-
-        isArmStopped = false;
     }
 }

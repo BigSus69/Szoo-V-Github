@@ -1,19 +1,37 @@
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
     public float movementSpeed = 10f;
     public float rotationSpeed = 100f;
     public float maxVerticalAngle = 80f;
     public float minVerticalAngle = -80f;
-
     private float verticalRotation = 0f;
- 
+
+    public ArmControllerV2 Arm;
+    public HandController Hand;
+
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         // Lock cursor to center of screen
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Arm = GameObject.FindObjectOfType<ArmControllerV2>();
+        Hand = GameObject.FindObjectOfType<HandController>();
     }
 
 

@@ -21,18 +21,12 @@ public class CatWander : MonoBehaviour
     private float idleDuration = 0f;         // Duration of the current idle period
     Animator m_Animator;
     public Slider petBar;
-    
-    public bool m_isSexing;
-    //public bool gorw = false;
-    public ArmControllerV2 armController;
-    public HandController handController;
 
     private void Start()
     {
         StartWander();
         m_Animator = GetComponent<Animator>();
         m_isMoving = false;
-        m_isSexing = armController.m_isSexing;
     }
     private void Awake()
     {
@@ -42,22 +36,18 @@ public class CatWander : MonoBehaviour
     private void Update()
     {
         // slowly reduce slider
-        if (petBar.value > 0 && !m_isSexing)
+        if (petBar.value > 0 && !Player.Instance.Hand.isSexing)
         {
-            petBar.value -= 0.0005f;
-            //If the value is 0 then the slider is destroyed
-            if (petBar.value == 0)
-            {
-                Destroy(gameObject);
-            }
+            petBar.value -= 0.0007f;
+
         }
         //if m_sexing is true then slider increases until it has reached MaxPealth
-        if (m_isSexing)
+        if (Player.Instance.Hand.isSexing)
         {
             if (petBar.value < MaxPealth)
             {
-                petBar.value += 0.05f;
-        
+                petBar.value += 0.003f;
+
                 // Make sure the value doesn't exceed MaxPealth
                 if (petBar.value > MaxPealth)
                 {
@@ -98,21 +88,19 @@ public class CatWander : MonoBehaviour
             }
         }
 
+        if(petBar.value == 0){
+            //Scale the cat dependent on time
+            transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime;
+        }
+
+        if(transform.localScale.x >= 3){
+            //Destroy the cat
+            Destroy(gameObject);
+        }
+
         // Update animator parameter
         m_Animator.SetBool("isMoving", !isIdle);
     }
-
-    /*public void LooseHealth(float amount)
-    {
-        // Update Health bar
-        Pealth -= amount;
-        petBar.value = Pealth / MaxPealth;
-
-        if (Pealth <= 0)
-        {
-            
-        }
-    }*/
 
     private void StartWander()
     {
@@ -125,4 +113,6 @@ public class CatWander : MonoBehaviour
         targetPosition = transform.position + Random.insideUnitSphere * Random.Range(minWanderDistance, maxWanderDistance);
         targetPosition.y = transform.position.y;
     }
+
+    
 }

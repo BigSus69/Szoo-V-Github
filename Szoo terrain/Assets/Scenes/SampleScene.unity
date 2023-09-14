@@ -254,6 +254,8 @@ MonoBehaviour:
   rotationSpeed: 100
   maxVerticalAngle: 80
   minVerticalAngle: -80
+  Arm: {fileID: 0}
+  Hand: {fileID: 0}
 --- !u!54 &112371849
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1154,6 +1156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
+  - component: {fileID: 705507996}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1238,6 +1241,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &705507996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705507993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &822609030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,11 +1703,11 @@ MonoBehaviour:
   rotationSpeed: 120
   minWanderDistance: 20
   maxWanderDistance: 40
-  minIdleTime: 1
-  maxIdleTime: 3
+  minIdleTime: 3
+  maxIdleTime: 6
   m_isMoving: 1
   Pealth: 100
-  MaxPealth: 100
+  MaxPealth: 10
   petBar: {fileID: 849546652}
 --- !u!143 &901318089
 CharacterController:
@@ -1726,7 +1749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c52bf55946ec1488c4692a8f6c7af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handController: {fileID: 1761671228}
+  m_Animator: {fileID: 0}
   m_isSexing: 0
 --- !u!95 &936655260
 Animator:
@@ -2520,6 +2543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wrist: {fileID: 1668633507}
   isSexing: 0
+  isSlapping: 0
+  m_handanimator: {fileID: 0}
 --- !u!65 &1761671229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2533,6 +2558,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13330601, y: -178.46, z: 0.20270081}
   m_Center: {x: -0.025295898, y: -0.010273983, z: 0.10560424}
+--- !u!95 &1761671232
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761671224}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6004fd621a899914dbde767eb587f0af, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!4 &1823606252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2500846682716702702, guid: 93c7013da5f3e744aa635a6b5d506b35, type: 3}
