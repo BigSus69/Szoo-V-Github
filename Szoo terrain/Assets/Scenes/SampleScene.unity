@@ -1940,6 +1940,8 @@ MonoBehaviour:
   isSlapping: 0
   m_handanimator: {fileID: 0}
   cat: {fileID: 919132149440787302}
+  explodeCatScore: 0
+  catSpawn: 8
 --- !u!65 &1761671229
 BoxCollider:
   m_ObjectHideFlags: 0
