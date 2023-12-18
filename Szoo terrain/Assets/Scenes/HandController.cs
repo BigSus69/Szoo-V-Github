@@ -11,7 +11,7 @@ public class HandController : MonoBehaviour
 
     public GameObject Wrist;
 
-    public bool isSexing = false;
+    public bool isTouching = false;
     public bool isSlapping = false;
     public Animator m_handanimator;
 
@@ -32,7 +32,7 @@ public class HandController : MonoBehaviour
     void Update()
     {
         this.transform.position = Wrist.transform.position;
-        if (Input.GetKeyDown(KeyCode.Space) && isSexing)
+        if (Input.GetKeyDown(KeyCode.Space) && isTouching)
         {
             StartCoroutine(SlapCat());
         }
@@ -46,11 +46,11 @@ public class HandController : MonoBehaviour
     private IEnumerator SlapCat()
 {
     //play slap animation
-    isSexing = false;
+    isTouching = false;
     isSlapping = true;
     Player.Instance.Arm.m_Animator.SetBool("isSlapping", true);
     m_handanimator.SetBool("handIsSlapping", true);
-    Player.Instance.Arm.m_Animator.SetBool("isSexing", false);
+    Player.Instance.Arm.m_Animator.SetBool("isTouching", false);
 
     // Wait for the slap animation to finish playing
     AnimatorStateInfo stateInfo = Player.Instance.Arm.m_Animator.GetCurrentAnimatorStateInfo(0);
@@ -70,7 +70,7 @@ public class HandController : MonoBehaviour
 
     StartCoroutine(StopSlappingCoroutine());
 
-    isSexing = false;
+    isTouching = false;
     isSlapping = false;
 }
  public GameObject GetClosestCat()
@@ -116,7 +116,7 @@ private IEnumerator StopSlappingCoroutine()
     isSlapping = false;
     Player.Instance.Arm.m_Animator.SetBool("isSlapping", false);
     m_handanimator.SetBool("handIsSlapping", false);
-    isSexing = false;
+    isTouching = false;
 }
 
     private IEnumerator StopSlapping()
@@ -132,8 +132,8 @@ private IEnumerator StopSlappingCoroutine()
     {
         if (col.gameObject.tag == "cat")
         {
-            isSexing = true;
-            Debug.Log("Sexing");
+            isTouching = true;
+            Debug.Log("Touching");
         }
     }
 
@@ -141,8 +141,8 @@ private IEnumerator StopSlappingCoroutine()
     {
         if (col.gameObject.tag == "cat")
         {
-            isSexing = false;
-            Debug.Log("NoSexing");
+            isTouching = false;
+            Debug.Log("NoTouching");
         }
     }
 

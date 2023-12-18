@@ -9,7 +9,7 @@ public class ArmControllerV2 : MonoBehaviour
 
     public Animator m_Animator;
 
-    public bool m_isSexing;
+    public bool m_isTouching;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class ArmControllerV2 : MonoBehaviour
 
 
         m_Animator = GetComponent<Animator>();
-        m_isSexing = false;
+        m_isTouching = false;
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class ArmControllerV2 : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isScaling = false;
-            m_Animator.SetBool("isSexing", false);
+            m_Animator.SetBool("isTouching", false);
             m_Animator.SetBool("isSlapping", false);
             Debug.Log("Mouse not pressed");
         }
@@ -43,14 +43,14 @@ public class ArmControllerV2 : MonoBehaviour
             Vector3 newScale = transform.localScale;
             newScale.z += HandController.HandGoGetMilkSpeed * Time.deltaTime;
             transform.localScale = newScale;
-            m_Animator.SetBool("isSexing", false);
+            m_Animator.SetBool("isTouching", false);
             m_Animator.SetBool("isSlapping", false);
         }
-        else if (Player.Instance.Hand.isSexing == true)
+        else if (Player.Instance.Hand.isTouching == true)
         {
             transform.localScale = transform.localScale;
             m_Animator.SetBool("isSlapping", false);
-            m_Animator.SetBool("isSexing", true);
+            m_Animator.SetBool("isTouching", true);
         }
         else if (Player.Instance.Hand.isSlapping)
         {
@@ -63,7 +63,7 @@ public class ArmControllerV2 : MonoBehaviour
             newScale.z -= HandController.HandGotMilkSpeed * Time.deltaTime;
             newScale.z = Mathf.Max(newScale.z, originalZScale);
             transform.localScale = newScale;
-            m_Animator.SetBool("isSexing", false);
+            m_Animator.SetBool("isTouching", false);
             m_Animator.SetBool("isSlapping", false);
         }
 

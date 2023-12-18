@@ -36,13 +36,13 @@ public class CatWander : MonoBehaviour
     private void Update()
     {
         // slowly reduce slider
-        if (petBar.value > 0 && !Player.Instance.Hand.isSexing)
+        if (petBar.value > 0 && !Player.Instance.Hand.isTouching)
         {
             petBar.value -= 0.0007f;
 
         }
-        //if m_sexing is true then slider increases until it has reached MaxPealth
-        if (Player.Instance.Hand.isSexing)
+        //if m_touching is true then slider increases until it has reached MaxPealth
+        if (Player.Instance.Hand.isTouching)
 {
     // Get the closest cat
     GameObject closestCat = Player.Instance.Hand.GetClosestCat();

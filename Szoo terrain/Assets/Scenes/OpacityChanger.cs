@@ -18,7 +18,7 @@ public class OpacityChanger : MonoBehaviour
     void Update()
     {
         // Check for input or condition to change opacity
-        if (handController.isSexing == true)
+        if (handController.isTouching == true)
         {
             // Call the method to change the image opacity
             ChangeOpacity(targetOpacity);
