@@ -55,7 +55,7 @@ public class HandController : MonoBehaviour
     // Wait for the slap animation to finish playing
     AnimatorStateInfo stateInfo = Player.Instance.Arm.m_Animator.GetCurrentAnimatorStateInfo(0);
     float animationLength = stateInfo.length;
-    yield return new WaitForSeconds(animationLength + 0.5f);
+    yield return new WaitForSeconds(animationLength + 0.7f);
 
     GameObject closestCat = GetClosestCat();
     // If a cat was found, make it fly at a high speed away from the player
