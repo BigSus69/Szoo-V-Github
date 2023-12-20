@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -18,15 +17,17 @@ public class HandController : MonoBehaviour
     public GameObject cat;
     public int explodeCatScore = 0;
     public int catSpawn = 8;
+    public GameObject raycastObject;
+    RaycastHit objectHit;
 
     void Start()
     {
         m_handanimator = GetComponent<Animator>();
-         for (int i = 0; i < catSpawn; i++)
-    {
-        Vector3 position = new Vector3(UnityEngine.Random.Range(-5f, 5f), 0f, UnityEngine.Random.Range(-5f, 5f));
-        Instantiate(cat, position, Quaternion.identity);
-    }
+        for (int i = 0; i < catSpawn; i++)
+        {
+            Vector3 position = new Vector3(UnityEngine.Random.Range(-5f, 5f), 0f, UnityEngine.Random.Range(-5f, 5f));
+            Instantiate(cat, position, Quaternion.identity);
+        }
     }
 
     void Update()
@@ -37,43 +38,66 @@ public class HandController : MonoBehaviour
             StartCoroutine(SlapCat());
         }
 
-        if(explodeCatScore == catSpawn)
+        if (explodeCatScore == catSpawn)
         {
             Debug.Log("Oh no! " + explodeCatScore + " This many cacats exploded!");
         }
+
+
     }
-    
-    private IEnumerator SlapCat()
-{
-    //play slap animation
-    isTouching = false;
-    isSlapping = true;
-    Player.Instance.Arm.m_Animator.SetBool("isSlapping", true);
-    m_handanimator.SetBool("handIsSlapping", true);
-    Player.Instance.Arm.m_Animator.SetBool("isTouching", false);
 
-    // Wait for the slap animation to finish playing
-    AnimatorStateInfo stateInfo = Player.Instance.Arm.m_Animator.GetCurrentAnimatorStateInfo(0);
-    float animationLength = stateInfo.length;
-    yield return new WaitForSeconds(animationLength + 0.7f);
-
-    GameObject closestCat = GetClosestCat();
-    // If a cat was found, make it fly at a high speed away from the player
-    if (closestCat != null)
+    void FixedUpdate()
     {
-        Rigidbody catRigidbody = closestCat.GetComponent<Rigidbody>();
-        catRigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
-
-        // Cat explodes after a few seconds
-        StartCoroutine(ExplodeCat(closestCat));
+        Ray ray = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(transform.position, transform.forward * 100, Color.red);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.gameObject.tag == "cat")
+            {
+                raycastObject = hit.collider.gameObject;
+                Debug.Log("raycastObject: " + raycastObject.name);
+                float distance = Vector3.Distance(transform.position, hit.point);
+                Debug.Log("Distance to cat: " + distance);
+            }
+            else
+            {
+                raycastObject = null;
+            }
+        }
     }
 
-    StartCoroutine(StopSlappingCoroutine());
+    private IEnumerator SlapCat()
+    {
+        //play slap animation
+        isTouching = false;
+        isSlapping = true;
+        Player.Instance.Arm.m_Animator.SetBool("isSlapping", true);
+        m_handanimator.SetBool("handIsSlapping", true);
+        Player.Instance.Arm.m_Animator.SetBool("isTouching", false);
 
-    isTouching = false;
-    isSlapping = false;
-}
- public GameObject GetClosestCat()
+        // Wait for the slap animation to finish playing
+        AnimatorStateInfo stateInfo = Player.Instance.Arm.m_Animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+        yield return new WaitForSeconds(animationLength + 0.7f);
+
+        GameObject closestCat = GetClosestCat();
+        // If a cat was found, make it fly at a high speed away from the player
+        if (closestCat != null)
+        {
+            Rigidbody catRigidbody = closestCat.GetComponent<Rigidbody>();
+            catRigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
+
+            // Cat explodes after a few seconds
+            StartCoroutine(ExplodeCat(closestCat));
+        }
+
+        StartCoroutine(StopSlappingCoroutine());
+
+        isTouching = false;
+        isSlapping = false;
+    }
+    public GameObject GetClosestCat()
     {
         GameObject closestCat = null;
         float closestDistance = float.MaxValue;
@@ -90,34 +114,34 @@ public class HandController : MonoBehaviour
         return closestCat;
     }
 
-   private IEnumerator ExplodeCat(GameObject cat)
-{
-    explodeCatScore += 1;
-    Debug.Log("ExplodeCat started. Score: " + explodeCatScore);
-    yield return new WaitForSeconds(2f);
-    Destroy(cat);
-    Debug.Log("Cat destroyed. Score: " + explodeCatScore);
-}
-
-public void SomeMethod()
-{
-    Debug.Log("SomeMethod called");
-    GameObject cat = GetClosestCat();
-    if (cat != null)
+    private IEnumerator ExplodeCat(GameObject cat)
     {
-        StartCoroutine(ExplodeCat(cat));
+        explodeCatScore += 1;
+        Debug.Log("ExplodeCat started. Score: " + explodeCatScore);
+        yield return new WaitForSeconds(2f);
+        Destroy(cat);
+        Debug.Log("Cat destroyed. Score: " + explodeCatScore);
     }
-}
-private IEnumerator StopSlappingCoroutine()
-{
-    yield return new WaitForSeconds(2f);
 
-    //stop slap animation
-    isSlapping = false;
-    Player.Instance.Arm.m_Animator.SetBool("isSlapping", false);
-    m_handanimator.SetBool("handIsSlapping", false);
-    isTouching = false;
-}
+    public void SomeMethod()
+    {
+        Debug.Log("SomeMethod called");
+        GameObject cat = GetClosestCat();
+        if (cat != null)
+        {
+            StartCoroutine(ExplodeCat(cat));
+        }
+    }
+    private IEnumerator StopSlappingCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+
+        //stop slap animation
+        isSlapping = false;
+        Player.Instance.Arm.m_Animator.SetBool("isSlapping", false);
+        m_handanimator.SetBool("handIsSlapping", false);
+        isTouching = false;
+    }
 
     private IEnumerator StopSlapping()
     {
@@ -145,6 +169,5 @@ private IEnumerator StopSlappingCoroutine()
             Debug.Log("NoTouching");
         }
     }
-
 
 }
