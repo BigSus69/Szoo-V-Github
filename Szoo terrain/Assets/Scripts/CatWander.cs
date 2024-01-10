@@ -43,25 +43,25 @@ public class CatWander : MonoBehaviour
         }
         //if m_touching is true then slider increases until it has reached MaxPealth
         if (Player.Instance.Hand.isTouching)
-{
-    // Get the closest cat
-    GameObject closestCat = Player.Instance.Hand.GetClosestCat();
-
-    // Check if the current cat is the closest
-    if (closestCat == this.gameObject)
-    {
-        if (petBar.value < MaxPealth)
         {
-            petBar.value += 0.003f;
+            // Get the closest cat
+            GameObject closestCat = Player.Instance.Hand.GetClosestCat();
 
-            // Make sure the value doesn't exceed MaxPealth
-            if (petBar.value > MaxPealth)
+            // Check if the current cat is the closest
+            if (closestCat == this.gameObject)
             {
-                petBar.value = MaxPealth;
+                if (petBar.value < MaxPealth)
+                {
+                    petBar.value += 0.003f;
+
+                    // Make sure the value doesn't exceed MaxPealth
+                    if (petBar.value > MaxPealth)
+                    {
+                        petBar.value = MaxPealth;
+                    }
+                }
             }
         }
-    }
-}
 
         if (isWandering)
         {
@@ -95,12 +95,14 @@ public class CatWander : MonoBehaviour
             }
         }
 
-        if(petBar.value == 0){
+        if (petBar.value == 0)
+        {
             //Scale the cat dependent on time
             transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime;
         }
 
-        if(transform.localScale.x >= 3){
+        if (transform.localScale.x >= 3)
+        {
             //Destroy the cat
             Destroy(gameObject);
         }
@@ -121,5 +123,5 @@ public class CatWander : MonoBehaviour
         targetPosition.y = transform.position.y;
     }
 
-    
+
 }

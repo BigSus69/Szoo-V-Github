@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class HandController : MonoBehaviour
 {
@@ -59,7 +58,7 @@ public class HandController : MonoBehaviour
                 raycastObject = hit.collider.gameObject;
                 Debug.Log("raycastObject: " + raycastObject.name);
                 float distance = Vector3.Distance(transform.position, hit.point);
-                Debug.Log("Distance to cat: " + distance);
+                //Debug.Log("Distance to cat: " + distance);
                 armBar.UpdateArmBar(distance);
             }
             else

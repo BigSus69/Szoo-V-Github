@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 278983532}
   - component: {fileID: 278983533}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: ArmBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,6 +548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 278983532}
+  rayCasting: {fileID: 734300388}
+  handRayCast: {fileID: 1761671224}
 --- !u!1 &335844304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,8 +1270,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 734300387}
+  - component: {fileID: 734300388}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: originalPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1283,13 +1286,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734300386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.37, y: -0.21, z: 3.45}
+  m_LocalPosition: {x: 4.37, y: 0, z: 3.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 112371846}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &734300388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734300386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d3752261e22e745bd0e76851231bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastObject: {fileID: 734300386}
+  armBar: {fileID: 278983533}
+  startDistance: 0
 --- !u!1 &822609030
 GameObject:
   m_ObjectHideFlags: 0
