@@ -13,6 +13,7 @@ public class HandController : MonoBehaviour
     public bool isTouching = false;
     public bool isSlapping = false;
     public Animator m_handanimator;
+    public ArmBar armBar;
 
     public GameObject cat;
     public int explodeCatScore = 0;
@@ -59,6 +60,7 @@ public class HandController : MonoBehaviour
                 Debug.Log("raycastObject: " + raycastObject.name);
                 float distance = Vector3.Distance(transform.position, hit.point);
                 Debug.Log("Distance to cat: " + distance);
+                armBar.UpdateArmBar(distance);
             }
             else
             {
