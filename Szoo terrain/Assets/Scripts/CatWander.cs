@@ -19,6 +19,7 @@ public class CatWander : MonoBehaviour
     private Vector3 targetPosition;
     private float idleTimer = 0f;            // Timer for idle time
     private float idleDuration = 0f;         // Duration of the current idle period
+    public static int explodeCatScore = 0;
     Animator m_Animator;
     public Slider petBar;
 
@@ -105,6 +106,8 @@ public class CatWander : MonoBehaviour
         {
             //Destroy the cat
             Destroy(gameObject);
+            CatWander.explodeCatScore += 1;
+            Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);
         }
 
         // Update animator parameter

@@ -15,7 +15,6 @@ public class HandController : MonoBehaviour
     public ArmBar armBar;
 
     public GameObject cat;
-    public int explodeCatScore = 0;
     public int catSpawn = 8;
     public GameObject raycastObject;
     RaycastHit objectHit;
@@ -36,11 +35,6 @@ public class HandController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isTouching)
         {
             StartCoroutine(SlapCat());
-        }
-
-        if (explodeCatScore == catSpawn)
-        {
-            Debug.Log("Oh no! " + explodeCatScore + " This many cacats exploded!");
         }
 
 
@@ -100,6 +94,7 @@ public class HandController : MonoBehaviour
     }
     public GameObject GetClosestCat()
     {
+        Debug.Log("GetClosestCat called");
         GameObject closestCat = null;
         float closestDistance = float.MaxValue;
         GameObject[] cats = GameObject.FindGameObjectsWithTag("cat");
@@ -117,22 +112,10 @@ public class HandController : MonoBehaviour
 
     private IEnumerator ExplodeCat(GameObject cat)
     {
-        explodeCatScore += 1;
-        Debug.Log("ExplodeCat started. Score: " + explodeCatScore);
         yield return new WaitForSeconds(2f);
         Destroy(cat);
-        Debug.Log("Cat destroyed. Score: " + explodeCatScore);
     }
 
-    public void SomeMethod()
-    {
-        Debug.Log("SomeMethod called");
-        GameObject cat = GetClosestCat();
-        if (cat != null)
-        {
-            StartCoroutine(ExplodeCat(cat));
-        }
-    }
     private IEnumerator StopSlappingCoroutine()
     {
         yield return new WaitForSeconds(2f);
