@@ -6,6 +6,7 @@ public class HandController : MonoBehaviour
 {
     public static float HandGoGetMilkSpeed = 500f;
     public static float HandGotMilkSpeed = 2000f;
+    public float DistanceToCat { get; private set; }
 
     public GameObject Wrist;
 
@@ -40,27 +41,25 @@ public class HandController : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+  void FixedUpdate()
+{
+    Ray ray = new Ray(transform.position, transform.forward);
+    Debug.DrawRay(transform.position, transform.forward * 100, Color.red);
+    RaycastHit hit;
+    if (Physics.Raycast(ray, out hit))
     {
-        Ray ray = new Ray(transform.position, transform.forward);
-        Debug.DrawRay(transform.position, transform.forward * 100, Color.red);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (hit.collider.gameObject.tag == "cat")
         {
-            if (hit.collider.gameObject.tag == "cat")
-            {
-                raycastObject = hit.collider.gameObject;
-                Debug.Log("raycastObject: " + raycastObject.name);
-                float distance = Vector3.Distance(transform.position, hit.point);
-                //Debug.Log("Distance to cat: " + distance);
-                armBar.UpdateArmBar(distance);
-            }
-            else
-            {
-                raycastObject = null;
-            }
+            raycastObject = hit.collider.gameObject;
+            Debug.Log("raycastObject: " + raycastObject.name);
+            DistanceToCat = Vector3.Distance(transform.position, hit.point); // Update the DistanceToCat property
+        }
+        else
+        {
+            raycastObject = null;
         }
     }
+}
 
     private IEnumerator SlapCat()
     {

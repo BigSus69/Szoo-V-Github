@@ -21,8 +21,6 @@ public class rayCastingScript : MonoBehaviour
                 raycastObject = hit.collider.gameObject;
                 Debug.Log("raycastObject: " + raycastObject.name);
                 startDistance = Vector3.Distance(transform.position, hit.point);
-                //Debug.Log("startDistance to cat: " + startDistance);
-                armBar.UpdateArmBar(startDistance);
             }
             else
             {
