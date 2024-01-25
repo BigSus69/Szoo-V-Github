@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
+using Random = UnityEngine.Random;
 
 public class CatWander : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class CatWander : MonoBehaviour
     public static int explodeCatScore = 0;
     Animator m_Animator;
     public Slider petBar;
+    public static event Action OnCatPetBarEmpty;
+    public bool isPetBarEmptyTriggered = false;
 
     private void Start()
     {
@@ -36,30 +40,25 @@ public class CatWander : MonoBehaviour
 
     private void Update()
     {
+        GameObject closestCat = Player.Instance.Hand.GetClosestCat();
+
         // slowly reduce slider
-        if (petBar.value > 0 && !Player.Instance.Hand.isTouching)
+        if (petBar.value > 0 && (!Player.Instance.Hand.isTouching || closestCat != this.gameObject))
         {
             petBar.value -= 0.0007f;
-
         }
+
         //if m_touching is true then slider increases until it has reached MaxPealth
-        if (Player.Instance.Hand.isTouching)
+        if (Player.Instance.Hand.isTouching && closestCat == this.gameObject)
         {
-            // Get the closest cat
-            GameObject closestCat = Player.Instance.Hand.GetClosestCat();
-
-            // Check if the current cat is the closest
-            if (closestCat == this.gameObject)
+            if (petBar.value < MaxPealth)
             {
-                if (petBar.value < MaxPealth)
-                {
-                    petBar.value += 0.003f;
+                petBar.value += 0.003f;
 
-                    // Make sure the value doesn't exceed MaxPealth
-                    if (petBar.value > MaxPealth)
-                    {
-                        petBar.value = MaxPealth;
-                    }
+                // Make sure the value doesn't exceed MaxPealth
+                if (petBar.value > MaxPealth)
+                {
+                    petBar.value = MaxPealth;
                 }
             }
         }
@@ -94,6 +93,12 @@ public class CatWander : MonoBehaviour
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
             }
+        }
+
+        if (petBar.value == 0 && !isPetBarEmptyTriggered)
+        {
+            OnCatPetBarEmpty?.Invoke();
+            isPetBarEmptyTriggered = true;
         }
 
         if (petBar.value == 0)

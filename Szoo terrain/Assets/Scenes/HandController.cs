@@ -19,6 +19,7 @@ public class HandController : MonoBehaviour
     public int catSpawn = 8;
     public GameObject raycastObject;
     RaycastHit objectHit;
+    public int slapCount = 0;
 
     void Start()
     {
@@ -41,25 +42,25 @@ public class HandController : MonoBehaviour
 
     }
 
-  void FixedUpdate()
-{
-    Ray ray = new Ray(transform.position, transform.forward);
-    Debug.DrawRay(transform.position, transform.forward * 100, Color.red);
-    RaycastHit hit;
-    if (Physics.Raycast(ray, out hit))
+    void FixedUpdate()
     {
-        if (hit.collider.gameObject.tag == "cat")
+        Ray ray = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(transform.position, transform.forward * 100, Color.red);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
         {
-            raycastObject = hit.collider.gameObject;
-            Debug.Log("raycastObject: " + raycastObject.name);
-            DistanceToCat = Vector3.Distance(transform.position, hit.point); // Update the DistanceToCat property
-        }
-        else
-        {
-            raycastObject = null;
+            if (hit.collider.gameObject.tag == "cat")
+            {
+                raycastObject = hit.collider.gameObject;
+                Debug.Log("raycastObject: " + raycastObject.name);
+                DistanceToCat = Vector3.Distance(transform.position, hit.point); // Update the DistanceToCat property
+            }
+            else
+            {
+                raycastObject = null;
+            }
         }
     }
-}
 
     private IEnumerator SlapCat()
     {
@@ -84,7 +85,20 @@ public class HandController : MonoBehaviour
 
             // Cat explodes after a few seconds
             StartCoroutine(ExplodeCat(closestCat));
+
+            Score scoreInstance = GameObject.FindObjectOfType<Score>();
+            if (scoreInstance != null)
+            {
+                scoreInstance.timeScore -= 1000;
+                
+            }
         }
+
+        slapCount++;
+
+        // Wait for the slap animation to finish playing
+        yield return
+
 
         StartCoroutine(StopSlappingCoroutine());
 
