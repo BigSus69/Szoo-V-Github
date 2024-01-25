@@ -11,6 +11,8 @@ public class EndScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true;
         float score = PlayerPrefs.GetFloat("Score", 0); // Load the score
         scoreText.text = "Score: " + Mathf.RoundToInt(score);
     }
