@@ -29,7 +29,7 @@ public class Score : MonoBehaviour
 
     private void HandleCatPetBarEmpty()
     {
-        timeScore -= 1500;
+        timeScore -= 1544;
         PlayerPrefs.SetFloat("Score", timeScore); // Save the score
         onlyOneCat();
     }
@@ -41,7 +41,7 @@ public class Score : MonoBehaviour
 
     public void onlyOneCat()
     {
-        if (GameObject.FindGameObjectsWithTag("cat").Length == 1)
+        if (GameObject.FindGameObjectsWithTag("cat").Length <= 1)
         {
             PlayerPrefs.SetFloat("Score", timeScore); // Save the score
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);

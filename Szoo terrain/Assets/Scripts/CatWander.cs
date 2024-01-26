@@ -45,7 +45,7 @@ public class CatWander : MonoBehaviour
         // slowly reduce slider
         if (petBar.value > 0 && (!Player.Instance.Hand.isTouching || closestCat != this.gameObject))
         {
-            petBar.value -= 0.0007f;
+            petBar.value -= 0.055f * Time.deltaTime;
         }
 
         //if m_touching is true then slider increases until it has reached MaxPealth
@@ -53,7 +53,7 @@ public class CatWander : MonoBehaviour
         {
             if (petBar.value < MaxPealth)
             {
-                petBar.value += 0.003f;
+                petBar.value += 0.3f * Time.deltaTime;
 
                 // Make sure the value doesn't exceed MaxPealth
                 if (petBar.value > MaxPealth)
