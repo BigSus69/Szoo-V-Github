@@ -26,6 +26,7 @@ public class CatWander : MonoBehaviour
     public Slider petBar;
     public static event Action OnCatPetBarEmpty;
     public bool isPetBarEmptyTriggered = false;
+    public GameObject Explosion;
 
     private void Start()
     {
@@ -105,14 +106,17 @@ public class CatWander : MonoBehaviour
         {
             //Scale the cat dependent on time
             transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime;
+
+            //Instantiate EvilCat
         }
 
         if (transform.localScale.x >= 3)
         {
-            //Destroy the cat
-            Destroy(gameObject);
-            CatWander.explodeCatScore += 1;
+            //Destroy the cat and instantiate explosion
             Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);
+            Instantiate  (Explosion, transform.position, transform.rotation);
+            CatWander.explodeCatScore += 1;
+            Destroy(gameObject);
         }
 
         // Update animator parameter
