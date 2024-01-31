@@ -21,9 +21,7 @@ public class EvilCatWander : MonoBehaviour
     private float idleDuration = 0f;         // Duration of the current idle period
     public static int explodeCatScore = 0;
     Animator m_Animator;
-    public Slider petBar;
     public static event Action OnCatPetBarEmpty;
-    public bool isPetBarEmptyTriggered = false;
     public GameObject Explosion;
 
     private void Start()
@@ -70,7 +68,7 @@ public class EvilCatWander : MonoBehaviour
             }
         }
 
-        if (transform.localScale.x >= 3)
+        if (transform.localScale.x >= 10)
         {
             //Destroy the cat and instantiate explosion
             Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);

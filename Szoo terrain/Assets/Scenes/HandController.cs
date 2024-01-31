@@ -12,6 +12,7 @@ public class HandController : MonoBehaviour
 
     public bool isTouching = false;
     public bool isSlapping = false;
+    bool isCatEvil = false;
     public Animator m_handanimator;
     public ArmBar armBar;
 
@@ -38,8 +39,6 @@ public class HandController : MonoBehaviour
         {
             StartCoroutine(SlapCat());
         }
-
-
     }
 
     void FixedUpdate()
@@ -87,10 +86,15 @@ public class HandController : MonoBehaviour
             StartCoroutine(ExplodeCat(closestCat));
 
             Score scoreInstance = GameObject.FindObjectOfType<Score>();
-            if (scoreInstance != null)
+            if (scoreInstance != null && isCatEvil == true)
+            {
+                scoreInstance.timeScore += 1000;
+                Debug.Log("You're good");  
+            }
+            else if (scoreInstance != null && isCatEvil == false)
             {
                 scoreInstance.timeScore -= 1000;
-                
+                Debug.Log("You're evil");
             }
         }
 
@@ -154,7 +158,13 @@ public class HandController : MonoBehaviour
         if (col.gameObject.tag == "cat")
         {
             isTouching = true;
+            isCatEvil = false;
             Debug.Log("Touching");
+        }
+        if (col.gameObject.tag == "evilCat")
+        {
+            isTouching = true;
+            isCatEvil = true;
         }
     }
 
@@ -163,6 +173,7 @@ public class HandController : MonoBehaviour
         if (col.gameObject.tag == "cat")
         {
             isTouching = false;
+            
             Debug.Log("NoTouching");
         }
     }
