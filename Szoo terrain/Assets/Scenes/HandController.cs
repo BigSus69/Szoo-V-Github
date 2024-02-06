@@ -76,22 +76,43 @@ public class HandController : MonoBehaviour
         yield return new WaitForSeconds(animationLength + 0.7f);
 
         GameObject closestCat = GetClosestCat();
-        // If a cat was found, make it fly at a high speed away from the player
-        if (closestCat != null)
+        GameObject closestEvilCat = GetClosestEvilCat();
+
+        float distanceToClosestCat = closestCat != null ? Vector3.Distance(this.transform.position, closestCat.transform.position) : float.MaxValue;
+        float distanceToClosestEvilCat = closestEvilCat != null ? Vector3.Distance(this.transform.position, closestEvilCat.transform.position) : float.MaxValue;
+
+        if (distanceToClosestCat < distanceToClosestEvilCat)
         {
+            // If a cat was found and it's closer than the evil cat, make it fly at a high speed away from the player
             Rigidbody catRigidbody = closestCat.GetComponent<Rigidbody>();
             catRigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
 
             // Cat explodes after a few seconds
             StartCoroutine(ExplodeCat(closestCat));
 
-            Score scoreInstance = GameObject.FindObjectOfType<Score>();
-            if (scoreInstance != null && isCatEvil == true)
+            isCatEvil = false;
+        }
+        else if (closestEvilCat != null)
+        {
+            // If an evil cat was found and it's closer than the cat, make it fly at a high speed away from the player
+            Rigidbody evilCatRigidbody = closestEvilCat.GetComponent<Rigidbody>();
+            evilCatRigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
+
+            // Evil cat explodes after a few seconds
+            StartCoroutine(ExplodeCat(closestEvilCat));
+
+            isCatEvil = true;
+        }
+
+        Score scoreInstance = GameObject.FindObjectOfType<Score>();
+        if (scoreInstance != null)
+        {
+            if (isCatEvil)
             {
                 scoreInstance.timeScore += 1000;
-                Debug.Log("You're good");  
+                Debug.Log("You're good");
             }
-            else if (scoreInstance != null && isCatEvil == false)
+            else
             {
                 scoreInstance.timeScore -= 1000;
                 Debug.Log("You're evil");
@@ -101,8 +122,7 @@ public class HandController : MonoBehaviour
         slapCount++;
 
         // Wait for the slap animation to finish playing
-        yield return
-
+        yield return new WaitForSeconds(animationLength + 0.7f);
 
         StartCoroutine(StopSlappingCoroutine());
 
@@ -111,7 +131,6 @@ public class HandController : MonoBehaviour
     }
     public GameObject GetClosestCat()
     {
-        Debug.Log("GetClosestCat called");
         GameObject closestCat = null;
         float closestDistance = float.MaxValue;
         GameObject[] cats = GameObject.FindGameObjectsWithTag("cat");
@@ -125,6 +144,25 @@ public class HandController : MonoBehaviour
             }
         }
         return closestCat;
+    }
+    public GameObject GetClosestEvilCat()
+    {
+        GameObject closestEvilCat = null;
+        float closestDistance = float.MaxValue;
+        GameObject[] evilCats = GameObject.FindGameObjectsWithTag("evilCat");
+        foreach (GameObject evilCat in evilCats)
+        {
+            if (evilCat != null)
+            {
+                float distance = Vector3.Distance(this.transform.position, evilCat.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestEvilCat = evilCat;
+                    closestDistance = distance;
+                }
+            }
+        }
+        return closestEvilCat;
     }
 
     private IEnumerator ExplodeCat(GameObject cat)
@@ -173,8 +211,12 @@ public class HandController : MonoBehaviour
         if (col.gameObject.tag == "cat")
         {
             isTouching = false;
-            
+
             Debug.Log("NoTouching");
+        }
+        if (col.gameObject.tag == "evilCat")
+        {
+            isTouching = false;
         }
     }
 
