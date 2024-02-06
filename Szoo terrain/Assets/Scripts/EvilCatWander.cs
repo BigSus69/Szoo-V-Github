@@ -68,7 +68,7 @@ public class EvilCatWander : MonoBehaviour
             }
         }
 
-        if (transform.localScale.x >= 10)
+        if (transform.localScale.x >= 6)
         {
             //Destroy the cat and instantiate explosion
             Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);
