@@ -51,7 +51,7 @@ public class HandController : MonoBehaviour
             if (hit.collider.gameObject.tag == "cat")
             {
                 raycastObject = hit.collider.gameObject;
-                Debug.Log("raycastObject: " + raycastObject.name);
+                // Debug.Log("raycastObject: " + raycastObject.name);
                 DistanceToCat = Vector3.Distance(transform.position, hit.point); // Update the DistanceToCat property
             }
             else
@@ -167,7 +167,7 @@ public class HandController : MonoBehaviour
 
     private IEnumerator ExplodeCat(GameObject cat)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(cat);
     }
 
@@ -197,7 +197,6 @@ public class HandController : MonoBehaviour
         {
             isTouching = true;
             isCatEvil = false;
-            Debug.Log("Touching");
         }
         if (col.gameObject.tag == "evilCat")
         {
@@ -211,8 +210,6 @@ public class HandController : MonoBehaviour
         if (col.gameObject.tag == "cat")
         {
             isTouching = false;
-
-            Debug.Log("NoTouching");
         }
         if (col.gameObject.tag == "evilCat")
         {

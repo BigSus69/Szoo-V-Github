@@ -14,9 +14,6 @@ public class ArmControllerV2 : MonoBehaviour
     void Start()
     {
         originalZScale = transform.localScale.z;
-        Debug.Log(HandController.HandGoGetMilkSpeed);
-
-
         m_Animator = GetComponent<Animator>();
         m_isTouching = false;
     }
@@ -26,7 +23,6 @@ public class ArmControllerV2 : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isScaling = true;
-            Debug.Log("Pressed Mouse");
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -34,7 +30,6 @@ public class ArmControllerV2 : MonoBehaviour
             isScaling = false;
             m_Animator.SetBool("isTouching", false);
             m_Animator.SetBool("isSlapping", false);
-            Debug.Log("Mouse not pressed");
         }
 
         // Check if the object is being scaled and scale it accordingly

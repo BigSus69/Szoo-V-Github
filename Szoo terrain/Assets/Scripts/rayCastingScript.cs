@@ -19,7 +19,7 @@ public class rayCastingScript : MonoBehaviour
             if (hit.collider.gameObject.tag == "cat")
             {
                 raycastObject = hit.collider.gameObject;
-                Debug.Log("raycastObject: " + raycastObject.name);
+                // Debug.Log("raycastObject: " + raycastObject.name);
                 startDistance = Vector3.Distance(transform.position, hit.point);
             }
             else
