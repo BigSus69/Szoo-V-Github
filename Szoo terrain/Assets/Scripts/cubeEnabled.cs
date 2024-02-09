@@ -1,43 +1,47 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 public class cubeEnabled : MonoBehaviour
 {
-    // If pressed 1 on the keyboard, the cube will be enabled
-    public GameObject cube;
-    public bool isCubeEnabled = false;
-    public HandController handController;
-
+    public GameObject cube; // Reference to the Cube GameObject
+    private bool isCubeEnabled = false; // Track whether the cube is enabled
 
     void Start()
     {
-        // Get the reference to the HandController script
-        handController = FindObjectOfType<HandController>();
+        if (cube != null)
+        {
+            cube.SetActive(false); // Disable the cube
+            isCubeEnabled = false;
+            Debug.Log("Cube is initially disabled");
+        }
+        else
+        {
+            Debug.Log("Cube is null in Start");
+        }
     }
 
     void Update()
     {
-        // Check for input or condition to change opacity
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // Call the method to change the image opacity
-            isCubeEnabled = true;
-            ChangeCubeEnabled(isCubeEnabled);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            // Call the method to change the image opacity
-            isCubeEnabled = false;
-            ChangeCubeEnabled(isCubeEnabled);
-        }
-    }
+            Debug.Log("1 key pressed");
+            if (cube != null)
+            {
+                cube.SetActive(!isCubeEnabled); // Toggle the active state of the cube
+                isCubeEnabled = !isCubeEnabled; // Update the isCubeEnabled variable
 
-    void ChangeCubeEnabled(bool isEnabled)
-    {
-        if (cube != null)
-        {
-            cube.SetActive(isEnabled);
+                if (isCubeEnabled)
+                {
+                    Debug.Log("Cube should now be enabled");
+                }
+                else
+                {
+                    Debug.Log("Cube should now be disabled");
+                }
+            }
+            else
+            {
+                Debug.Log("Cube is null in Update");
+            }
         }
     }
 }
