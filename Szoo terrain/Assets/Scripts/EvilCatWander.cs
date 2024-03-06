@@ -10,29 +10,36 @@ public class EvilCatWander : MonoBehaviour
     public float rotationSpeed = 120f;
     public float minWanderDistance = 5f;
     public float maxWanderDistance = 15f;
-    public float minIdleTime = 1f;          // Minimum time the cat stays idle
-    public float maxIdleTime = 5f;          // Maximum time the cat stays idle
-    public bool m_isMoving;
+    public float minIdleTime = 1f;
+    public float maxIdleTime = 5f;
+    public bool m_isMoving = false;
 
     private bool isWandering = false;
-    private bool isIdle = false;             // Flag to indicate if the cat is currently idle
+    private bool isIdle = false;
     private Vector3 targetPosition;
-    private float idleTimer = 0f;            // Timer for idle time
-    private float idleDuration = 0f;         // Duration of the current idle period
+    private float idleTimer = 0f;
+    private float idleDuration = 0f;
     public static int explodeCatScore = 0;
     Animator m_Animator;
-    public static event Action OnCatPetBarEmpty;
     public GameObject Explosion;
 
     private void Start()
     {
         StartWander();
         m_Animator = GetComponent<Animator>();
-        m_isMoving = false;
     }
-        private void Update()
+    private void Update()
     {
         transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime;
+        
+        if (transform.localScale.x >= 6)
+        {
+            //Destroy the cat and instantiate explosion
+            Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);
+            Instantiate  (Explosion, transform.position, transform.rotation);
+            CatWander.explodeCatScore += 1;
+            Destroy(gameObject);
+        }
 
         GameObject closestCat = Player.Instance.Hand.GetClosestCat();
 
@@ -66,15 +73,6 @@ public class EvilCatWander : MonoBehaviour
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
             }
-        }
-
-        if (transform.localScale.x >= 6)
-        {
-            //Destroy the cat and instantiate explosion
-            Debug.Log("Explode Cat Score: " + CatWander.explodeCatScore);
-            Instantiate  (Explosion, transform.position, transform.rotation);
-            CatWander.explodeCatScore += 1;
-            Destroy(gameObject);
         }
 
         // Update animator parameter

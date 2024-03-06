@@ -10,17 +10,17 @@ public class CatWander : MonoBehaviour
     public float rotationSpeed = 120f;
     public float minWanderDistance = 5f;
     public float maxWanderDistance = 15f;
-    public float minIdleTime = 1f;          // Minimum time the cat stays idle
-    public float maxIdleTime = 5f;          // Maximum time the cat stays idle
+    public float minIdleTime = 1f;
+    public float maxIdleTime = 5f;
     public bool m_isMoving;
     public float Pealth = 100f;
     public float MaxPealth = 100f;
 
     private bool isWandering = false;
-    private bool isIdle = false;             // Flag to indicate if the cat is currently idle
+    private bool isIdle = false;
     private Vector3 targetPosition;
-    private float idleTimer = 0f;            // Timer for idle time
-    private float idleDuration = 0f;         // Duration of the current idle period
+    private float idleTimer = 0f;
+    private float idleDuration = 0f;
     public static int explodeCatScore = 0;
     Animator m_Animator;
     public Slider petBar;
@@ -44,7 +44,7 @@ public class CatWander : MonoBehaviour
         GameObject closestCat = Player.Instance.Hand.GetClosestCat();
 
         // slowly reduce slider
-        if (petBar.value > 0 && (!Player.Instance.Hand.isTouching || closestCat != this.gameObject))
+        if (petBar.value > 0 && (!Player.Instance.Hand.isTouching))
         {
             petBar.value -= 0.055f * Time.deltaTime;
         }

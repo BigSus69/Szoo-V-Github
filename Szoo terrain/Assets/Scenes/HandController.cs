@@ -40,7 +40,7 @@ public class HandController : MonoBehaviour
             StartCoroutine(SlapCat());
         }
     }
-
+/*
     void FixedUpdate()
     {
         Ray ray = new Ray(transform.position, transform.forward);
@@ -60,6 +60,7 @@ public class HandController : MonoBehaviour
             }
         }
     }
+*/
 
     private IEnumerator SlapCat()
     {
@@ -207,11 +208,7 @@ public class HandController : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "cat")
-        {
-            isTouching = false;
-        }
-        if (col.gameObject.tag == "evilCat")
+        if (col.gameObject.tag == "cat" || col.gameObject.tag == "evilCat")
         {
             isTouching = false;
         }
