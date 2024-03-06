@@ -1,6 +1,6 @@
 # Szoo
 
-Szoo er **fremtidens** <em>muligvis</em> bedste spil
+Szoo er **fremtidens** <em>muligvis</em> bedste spil 
 
 <p>I spillet skal man klappe nogle katte i en lille zoo</p>
 <p>Problemerne kommer først når spilleren stopper med at klappe deres katte, de kræver kærlighed, og en mangel på det vil gøre dem ondskabsfulde med risiko for milde eksplosioner</p>
