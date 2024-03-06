@@ -9,18 +9,16 @@ public class EndScript : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
 
-    // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        float score = PlayerPrefs.GetFloat("Score", 0); // Load the score
-        float highScore = PlayerPrefs.GetFloat("HighScore", 0); // Load the high score
+        float score = PlayerPrefs.GetFloat("Score", 0); 
+        float highScore = PlayerPrefs.GetFloat("HighScore", 0);
 
-        // If the current score is higher than the high score
         if (score > highScore)
         {
-            PlayerPrefs.SetFloat("HighScore", score); // Set new high score
+            PlayerPrefs.SetFloat("HighScore", score); 
             highScore = score;
         }
 

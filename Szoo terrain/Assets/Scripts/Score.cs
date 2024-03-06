@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     public TextMeshProUGUI scoreText;
     public float timeScore = 0f;
@@ -30,21 +29,16 @@ public class Score : MonoBehaviour
     private void HandleCatPetBarEmpty()
     {
         timeScore -= 1544;
-        PlayerPrefs.SetFloat("Score", timeScore); // Save the score
+        PlayerPrefs.SetFloat("Score", timeScore);
         onlyOneCat();
-    }
-
-    void OnDestroy()
-    {
-        CatWander.OnCatPetBarEmpty -= HandleCatPetBarEmpty;
-    }
+    }    
 
     public void onlyOneCat()
     {
         if (GameObject.FindGameObjectsWithTag("cat").Length <= 1)
         {
-            PlayerPrefs.SetFloat("Score", timeScore); // Save the score
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+            PlayerPrefs.SetFloat("Score", timeScore); 
+            SceneManager.LoadScene("EndScreen");
         }
     }
 }
